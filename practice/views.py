@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.shortcuts import redirect
-from .models import CD, ExchangeModel
+# from .models import ExchangeModel
 from .forms import ExchangeForm
 
 def send_msg(email, name, title, artist, genre, price, comment):
@@ -29,15 +29,30 @@ def index(request):
 
         if form.is_valid():
             cleaned_form = form.cleaned_data
-            cd = ExchangeModel()
-            cd.name = cleaned_form["name"]
-            cd.email = cleaned_form["email"]
-            cd.title = cleaned_form["title"]
-            cd.artist = cleaned_form["artist"]
-            cd.price = cleaned_form["price"]
-            cd.comment = cleaned_form["comment"]
-            cd.save()
+
+            # cd = ExchangeModel()
+            # cd.name = cleaned_form["name"]
+            # cd.email = cleaned_form["email"]
+            # cd.title = cleaned_form["title"]
+            # cd.artist = cleaned_form["artist"]
+            # cd.genre = cleaned_form["genre"]
+            # cd.price = cleaned_form["price"]
+            # cd.comment = cleaned_form["comment"]
+            # cd.save()
+
+            name = cleaned_form["name"]
+            email = cleaned_form["email"]
+            title = cleaned_form["title"]
+            artist = cleaned_form["artist"]
+            genre = cleaned_form["genre"]
+            price = cleaned_form["price"]
+            comment = cleaned_form["comment"]
+            send_msg(email, name, title, artist, genre, price, comment)
+
+            # return render(request, 'thankyou.html')
             return redirect('/thankyou')
+
+        return render(request, 'index.html', {'form': form})
 
     # После заполнения формы показывайте шаблон "thankyou.html"
     form = ExchangeForm()

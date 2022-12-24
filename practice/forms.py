@@ -11,6 +11,13 @@ class ExchangeForm(forms.Form):
     email = forms.EmailField()
     title = forms.CharField(max_length=100)
     artist = forms.CharField(max_length=40)
-    genre = forms.ChoiceField(choices = GENRE_CHOICES)
-    price = forms.DecimalField(required = False)
-    comment = forms.CharField(widget=forms.Textarea)
+    genre = forms.ChoiceField(choices=GENRE_CHOICES)
+    price = forms.DecimalField(required=False)
+    comment = forms.CharField(required=False, widget=forms.Textarea)
+
+    def clean_artist(self):
+        new_artist = self.cleaned_data['artist']
+        exists = CD.objects.filter(artist=new_artist).exists()
+        if not exists:
+            raise forms.ValidationError('artist was not found')
+        return new_artist
