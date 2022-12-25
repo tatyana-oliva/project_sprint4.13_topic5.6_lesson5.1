@@ -50,7 +50,7 @@ def index(request):
             send_msg(email, name, title, artist, genre, price, comment)
 
             # return render(request, 'thankyou.html')
-            return redirect('/thankyou')
+            return redirect('/thank-you/')
 
         return render(request, 'index.html', {'form': form})
 
